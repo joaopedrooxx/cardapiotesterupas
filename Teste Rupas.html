@@ -1,0 +1,565 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rupa's Cervejaria - Cardápio</title>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --bg-darker: #121212;
+            --accent: #FFD700;
+            --text-light: #f5f5f5;
+            --text-gray: #cccccc;
+            --card-bg: #2a2a2a;
+            --section-line: #333333;
+            --tab-bg: #252525;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-darker);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--bg-dark);
+            padding: 2rem 0 0 0;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            background-color: var(--tab-bg);
+            border-bottom: 1px solid var(--section-line);
+        }
+
+        .tab {
+            padding: 1.2rem 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-gray);
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+        }
+
+        .tab:hover {
+            color: var(--accent);
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            background-color: var(--bg-dark);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            transition: transform 0.3s;
+            border-left: 4px solid var(--accent);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .item-image {
+            width: 150px;
+            height: 150px;
+            background-color: var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .menu-item:hover .item-image img {
+            transform: scale(1.05);
+        }
+
+        .item-details {
+            padding: 1.2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-left: 1rem;
+        }
+
+        .item-description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: rgba(255, 214, 0, 0.15);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 214, 0, 0.3);
+        }
+
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--section-line);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-info p {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+            background-color: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        @media (max-width: 768px) {
+            .tabs-container {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                padding: 1rem;
+                font-size: 0.85rem;
+                flex: 1 0 auto;
+                text-align: center;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-item {
+                flex-direction: column;
+            }
+            
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .footer-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>RUPA'S CERVEJARIA</h1>
+        <p class="subtitle">O Brill Pub autêntico</p>
+        
+        <div class="tabs-container">
+            <div class="tab active" data-tab="cervejas">Cervejas</div>
+            <div class="tab" data-tab="drinks">Drinks</div>
+            <div class="tab" data-tab="petiscos">Petiscos</div>
+            <div class="tab" data-tab="hamburgers">Hambúrguers</div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Cervejas Artesanais -->
+        <div id="cervejas" class="tab-content active">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Pilsen Artesanal">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Pilsen Artesanal</h3>
+                            <span class="item-price">R$ 15,00</span>
+                        </div>
+                        <p class="item-description">Cerveja dourada, refrescante e levemente amarga, perfeita para acompanhar petiscos.</p>
+                        <div class="item-tags">
+                            <span class="tag">500ml</span>
+                            <span class="tag">ABV 5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1513309914637-65c20a5962e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="IPA da Casa">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">IPA da Casa</h3>
+                            <span class="item-price">R$ 18,00</span>
+                        </div>
+                        <p class="item-description">Amarga e aromática, com notas cítricas e florais de lúpulo especial.</p>
+                        <div class="item-tags">
+                            <span class="tag">500ml</span>
+                            <span class="tag">ABV 6.5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Stout Cream">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Stout Cream</h3>
+                            <span class="item-price">R$ 20,00</span>
+                        </div>
+                        <p class="item-description">Escura, cremosa com notas de café e chocolate. Corpo médio e final suave.</p>
+                        <div class="item-tags">
+                            <span class="tag">500ml</span>
+                            <span class="tag">ABV 5.8%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drinks Especiais -->
+        <div id="drinks" class="tab-content">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1605270012917-bf157c5a9541?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Gin Tônica Premium">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Gin Tônica Premium</h3>
+                            <span class="item-price">R$ 28,00</span>
+                        </div>
+                        <p class="item-description">Gin selecionado com água tônica artesanal, gelo cristalino e especiarias.</p>
+                        <div class="item-tags">
+                            <span class="tag">Premium</span>
+                            <span class="tag">450ml</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Negroni">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Negroni</h3>
+                            <span class="item-price">R$ 32,00</span>
+                        </div>
+                        <p class="item-description">Clássico italiano com gin, Campari, vermute tinto e twist de laranja.</p>
+                        <div class="item-tags">
+                            <span class="tag">Clássico</span>
+                            <span class="tag">300ml</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Old Fashioned">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Old Fashioned</h3>
+                            <span class="item-price">R$ 35,00</span>
+                        </div>
+                        <p class="item-description">Bourbon, açúcar, bitters e twist de laranja. Um clássico atemporal.</p>
+                        <div class="item-tags">
+                            <span class="tag">Clássico</span>
+                            <span class="tag">300ml</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Petiscos -->
+        <div id="petiscos" class="tab-content">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Torresmo Crocante">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Torresmo Crocante</h3>
+                            <span class="item-price">R$ 22,00</span>
+                        </div>
+                        <p class="item-description">Porção generosa de torresmo dourado com limão e pimenta especial da casa.</p>
+                        <div class="item-tags">
+                            <span class="tag">Acompanha limão</span>
+                            <span class="tag">Serve 2-3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Batata Frita da Casa">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Batata Frita da Casa</h3>
+                            <span class="item-price">R$ 18,00</span>
+                        </div>
+                        <p class="item-description">Batata rústica com casca, frita na hora e acompanha molho especial.</p>
+                        <div class="item-tags">
+                            <span class="tag">Porção grande</span>
+                            <span class="tag">Caseiro</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1601050690117-64b6d9e20b0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Bolinhos de Bacalhau">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Bolinhos de Bacalhau</h3>
+                            <span class="item-price">R$ 26,00</span>
+                        </div>
+                        <p class="item-description">6 unidades crocantes por fora e macios por dentro, com molho tártaro.</p>
+                        <div class="item-tags">
+                            <span class="tag">6 unidades</span>
+                            <span class="tag">Tradicional</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hambúrguers -->
+        <div id="hamburgers" class="tab-content">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Clássico Rupa's">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Clássico Rupa's</h3>
+                            <span class="item-price">R$ 32,00</span>
+                        </div>
+                        <p class="item-description">Pão brioche, blend da casa 180g, queijo cheddar, bacon crocante e molho especial.</p>
+                        <div class="item-tags">
+                            <span class="tag">Acompanha fritas</span>
+                            <span class="tag">Artensal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1561758033-7e924f619b47?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Barbecue">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Barbecue</h3>
+                            <span class="item-price">R$ 35,00</span>
+                        </div>
+                        <p class="item-description">Hambúrguer com cebola caramelizada, molho barbecue caseiro e queijo coalho.</p>
+                        <div class="item-tags">
+                            <span class="tag">Acompanha fritas</span>
+                            <span class="tag">Especial</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1596662951482-0c4ba74a6df6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Vegetariano">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">Vegetariano</h3>
+                            <span class="item-price">R$ 30,00</span>
+                        </div>
+                        <p class="item-description">Hambúrguer de grão-de-bico com abobrinha, queijo coalho e molho de iogurte.</p>
+                        <div class="item-tags">
+                            <span class="tag">Vegetariano</span>
+                            <span class="tag">Acompanha fritas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">RUPA'S CERVEJARIA</div>
+            <div class="footer-info">
+                <p>📞 (31) 9 8628-4984</p>
+                <p>📍 Av Francisco Sá, 1144 - Belo Horizonte/MG</p>
+ 
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon">📱</a>
+                <a href="#" class="social-icon">📷</a>
+                <div class="social-icon">🔍</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
